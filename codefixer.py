@@ -4,15 +4,15 @@ lots of samples of bugs are required to complete this program.
 ----------------------------------------------------------------------------------------------------------------------
 usage:
 
-import codefixer / from codefixer import *
+import codefixer / from code fixer import *
 ## code fixing
-codefixer.fix.codefixer()
+codefixer.fix.codefixer(__file__)
 .. your code ..
 or 
 try:
     .. your code ..
 except:
-codefixer.fix.codefixer()
+codefixer.fix.codefixer(__file__)
 '''
 
 # import dependencies
@@ -43,16 +43,15 @@ class fix(bugs):
     '''
     this class is for fixing bugs
     '''
-    def __init__(self, count = 0):
+    def __init__(self):
         # skeleton for the class for fixing bugs
-        self.count = count
         pass
 
     def add_fixer(codelist):
         '''
         add a list of code to this class for fixing bugs
         '''
-        with open(__file__, "a+") as f:
+        with open("codefixer.py", "a+") as f:
             f.seek(60)
             f.write("\n")
             f.writelines(codelist)
@@ -61,7 +60,7 @@ class fix(bugs):
         
 
 
-    def conanfix(self, line):
+    def conanfix(line):
         '''
         add back : in the end of line if needed
         '''
@@ -69,7 +68,7 @@ class fix(bugs):
             line = line + ":"
         return line
 
-    def indentation(self, line, degree = 0):
+    def indentation(line, degree = 0):
         '''
         for doing indentation automaticallly for degree times
         '''
@@ -77,7 +76,7 @@ class fix(bugs):
             line = "    "+line
         return line
 
-    def iffix(self, line):
+    def iffix(line):
         '''
         fixing bugs in if/while statements
         '''
@@ -92,7 +91,7 @@ class fix(bugs):
         # return 
         return line
 
-    def forfix(self, line):
+    def forfix(line):
         '''
         automatically fixing bugs in for statement
         '''
@@ -102,7 +101,7 @@ class fix(bugs):
         # return
         return line
 
-    def typefix(self, line):
+    def typefix(line):
         '''
         automatically delete the type added in your code
         '''
@@ -131,7 +130,7 @@ class fix(bugs):
 
 
     ## fixing the bugs in a single line of code
-    def linefixer(self, line):
+    def linefixer(line):
         ''' 
         automatically fix bugs in your program
         '''
@@ -140,12 +139,14 @@ class fix(bugs):
         global preline_indent
         dedent = 0
         # parameters
-        line_indent = (len(line) - len(line.lstrip()))//4
+        line_indent = (len(line) - len(line.lstrip()))/4
+        print(line_indent)
         length = len(line)
         # indentation comparison
         while preline_indent > line_indent:
             indent = indent - 1
             preline_indent = preline_indent - 1
+        preline_indent = line_indent
         # dedent everything for easily bug fixing
         line = line.lstrip()
         # { # } operator for not fixing the line
@@ -155,38 +156,39 @@ class fix(bugs):
         if "if" in line or "while" in line:
             indent = indent + 1
             dedent = 1
-            self.iffix(line)
+            fix.iffix(line)
         # for statement fixing
         if "for" in line:
             indent = indent + 1
             dedent = 1
-            self.forfix(line)
+            fix.forfix(line)
 
         #
 
         # automatic indentation
-        self.indentation(line, indent-dedent)
+        fix.indentation(line, indent-dedent)
         # return the fixed line of code
         return line
 
 
     # driver code
-    def codefixer():
+    def codefixer(file):
         '''
         automatically fix bugs in the program
         '''
         new_lines = []
-        with open(__file__, "r") as f:
+        with open(file, "r") as f:
             f.seek(0)
             lines = f.readlines()
             for line in lines:
                 new_lines.append(fix.linefixer(line)+"\n")
-        with open(__file__, "w+") as f:
+        with open(file, "w+") as f:
             f.writelines(new_lines)
 
         # execute the current file after fixing the code
-        print(exec(__file__).read())
+        exec(open(file).read())
 
 
-
+def codefixer(file):
+    fix.codefixer(file)
 
