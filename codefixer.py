@@ -52,7 +52,7 @@ class fix(bugs):
         '''
         add a list of code to this class for fixing bugs
         '''
-        with open("codefixer.py", "a+") as f:
+        with open(__file__, "a+") as f:
             f.seek(60)
             f.write("\n")
             f.writelines(codelist)
