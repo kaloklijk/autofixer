@@ -4,7 +4,7 @@ lots of samples of bugs are required to complete this program.
 ----------------------------------------------------------------------------------------------------------------------
 usage:
 
-import codefixer / from code fixer import *
+import codefixer / from codefixer import *
 ## code fixing
 codefixer.fix.codefixer()
 .. your code ..
