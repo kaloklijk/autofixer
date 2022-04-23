@@ -3,16 +3,7 @@ This project is for automatically fixing bugs and automatically making your code
 lots of samples of bugs are required to complete this program.
 ----------------------------------------------------------------------------------------------------------------------
 usage:
-
-import codefixer / from code fixer import *
-## code fixing
-codefixer.fix.codefixer(__file__)
-.. your code ..
-or 
-try:
-    .. your code ..
-except:
-codefixer.fix.codefixer(__file__)
+python codefixer.py [filename]
 '''
 
 # import dependencies
@@ -64,11 +55,11 @@ class fix(bugs):
         '''
         add back : in the end of line if needed
         '''
-        if line[-1] != ":":
-            line = line + ":"
+        if line[-2] != ":":
+            line = line[:-1] + ":" + line[-1:]
         return line
 
-    def indentation(line, degree = 0):
+    def indentation(line, degree):
         '''
         for doing indentation automaticallly for degree times
         '''
@@ -140,12 +131,11 @@ class fix(bugs):
         dedent = 0
         # parameters
         line_indent = (len(line) - len(line.lstrip()))/4
-        print(line_indent)
         length = len(line)
         # indentation comparison
-        while preline_indent > line_indent:
-            indent = indent - 1
-            preline_indent = preline_indent - 1
+        indentdiff = preline_indent-line_indent
+        if indentdiff > 0:
+            indent -= indentdiff
         preline_indent = line_indent
         # dedent everything for easily bug fixing
         line = line.lstrip()
@@ -154,20 +144,19 @@ class fix(bugs):
             return line
         # if, while statement fixing
         if "if" in line or "while" in line:
-            indent = indent + 1
-            dedent = 1
-            fix.iffix(line)
+            indent += 1
+            dedent += 1
+            line = fix.iffix(line)
         # for statement fixing
         if "for" in line:
-            indent = indent + 1
-            dedent = 1
-            fix.forfix(line)
-
-        #
-
+            indent += 1
+            dedent += 1
+            line = fix.forfix(line)
         # automatic indentation
-        fix.indentation(line, indent-dedent)
+        line = fix.indentation(line, indent-dedent)
         # return the fixed line of code
+        print([indent, dedent])
+        
         return line
 
 
@@ -181,7 +170,7 @@ class fix(bugs):
             f.seek(0)
             lines = f.readlines()
             for line in lines:
-                new_lines.append(fix.linefixer(line)+"\n")
+                new_lines.append(fix.linefixer(line))
         with open(file, "w+") as f:
             f.writelines(new_lines)
 
@@ -191,4 +180,15 @@ class fix(bugs):
 
 def codefixer(file):
     fix.codefixer(file)
+
+
+if __name__ == '__main__':
+    try:
+        if sys.argv[1] == "self":
+            codefixer(__file__)
+        else:
+            filename = sys.argv[1]
+            codefixer(filename)
+    except:
+        print("file name required")
 
