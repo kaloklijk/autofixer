@@ -7,9 +7,8 @@ Usage:
 
 
 ```diff
-import codefixer
-codefixer.fix.codefixer()
+python codefixer.py [filename]
 ```
 
 
-there is still some bugs in it, so don't use it
+
