@@ -155,8 +155,6 @@ class fix(bugs):
         # automatic indentation
         line = fix.indentation(line, indent-dedent)
         # return the fixed line of code
-        print([indent, dedent])
-        
         return line
 
 
@@ -190,5 +188,4 @@ if __name__ == '__main__':
             filename = sys.argv[1]
             codefixer(filename)
     except:
-        print("file name required")
-
+        pass 
